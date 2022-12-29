@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang = "pl">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fibonacci</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 30px;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    p {
+      font-family: sans-serif;
+      font-weight: bold;
+      margin: auto;
+      margin-bottom: 10px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 12px 20px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+
+    input[type="submit"] {
+      background-color: #333;
+      color: #fff;
+      padding: 12px 20px;
+      margin-bottom: 30px;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Kalkulator liczby Fibonacciego</h1>
+  <form id="number-form">
+    <label for="number-input">Podaj liczbę (n):</label><br>
+    <input type="number" id="number-input" name="number-input" min="0"><br><br>
+    <input type="submit" value="Wyślij">
+  </form>
+  <div id="result">
+    <p> </p>
+  </div>
+  <p>Kamil Zagajewski, I2S 1.5</p>
+  <script>
+    var form = document.getElementById('number-form');
+    form.addEventListener('submit', function(event) {
+
+      event.preventDefault();
+
+      var number = document.getElementById('number-input').value;
+      console.log("Pobrana liczba to: " + number)
+      fetch("http://localhost:8080/fibonacci/"+number, {
+        headers: {
+          "Content-Type": "text/plain"
+        }
+      }).then(response => response.text())
+        .then(result => {
+          console.log(result);
+          document.getElementById('result').innerHTML = "<p>Wynik: " + result + "</p>";
+        })
+        .catch(error => console.log("Coś poszło nie tak"));
+
+    });
+  </script>
+</body>
+</html>
