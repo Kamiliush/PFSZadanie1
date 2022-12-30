@@ -7,7 +7,9 @@ env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
-  IMAGE_NAME: kamiliusz/fib_calc
+  GHCR_IMAGE_NAME: Kamiliush/fib_calc
+  # dockerhub.repository
+  DH_IMAGE_NAME: kamiliusz/fib_calc
 
 
 jobs:
@@ -30,7 +32,7 @@ jobs:
         with:
           platforms: amd64,arm64
 
-      - name: Setup Docker buildx
+      - name: Inicjalizacja buildx
         uses: docker/setup-buildx-action@v2.2.1
         with:
           platforms: linux/amd64,linux/arm64
@@ -52,7 +54,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4.1.1
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{ env.REGISTRY }}/${{ env.GHCR_IMAGE_NAME }}
           tags: |
             type=ref,event=branch
             type=ref,event=pr
@@ -68,7 +70,7 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:z1_cache
-          cache-to: type=gha,mode=max,ref=${{ env.IMAGE_NAME }}:z1_cache
+          cache-from: type=registry,ref=docker.io/${{ env.DH_IMAGE_NAME }}:z1_cache
+          cache-to: type=gha,mode=max,ref=docker.io/${{ env.DH_IMAGE_NAME }}:z1_cache
           platforms: linux/amd64,linux/arm64
 
