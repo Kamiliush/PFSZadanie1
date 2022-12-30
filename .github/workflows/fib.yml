@@ -71,6 +71,6 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=registry,ref=docker.io/${{ env.DH_IMAGE_NAME }}:z1_cache
-          cache-to: type=gha,mode=max,ref=docker.io/${{ env.DH_IMAGE_NAME }}:z1_cache
+          cache-to: type=registry,mode=max,ref=docker.io/${{ env.DH_IMAGE_NAME }}:z1_cache
           platforms: linux/amd64,linux/arm64
 
