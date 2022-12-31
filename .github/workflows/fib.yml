@@ -58,6 +58,8 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.GHCR_IMAGE_NAME }}
           tags: |
+            type=raw,value=latest
+            type=ref,event=branch
             type=semver,pattern={{version}}
 
       - name: Budowanie obrazu i wypchnięcie go do repozytorium
